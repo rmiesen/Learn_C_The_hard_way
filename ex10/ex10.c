@@ -9,31 +9,35 @@ int main (int argc, char *argv[]) {
 
         int i = 0;
         for (i = 0; argv[1][i] != '\0'; ++i) {
-                char letter = argv[1][i];
+                // inherantly biassed towards ASCII, but should work for all
+                // character encodings where all the letters are grouped
+                // together (1) continuously and (2) in such a fashion that
+                // the distance between any character pair is the same
+                const char to_lower_bitmask = ~('a' - 'A');
+                //LEFT_OFF_HERE: Figure out how to get bitmask to make a character LOWER CASE (currently makes them UPPER CASE)
+                printf("bitmask: %d\n", to_lower_bitmask);
+
+                char letter = argv[1][i] & to_lower_bitmask;
+                printf("DEBUG: %c converted to %c.\n", argv[1][i], letter);
+
 
                 switch (letter) {
                 case 'a':
-                case 'A':
                         printf("%d: 'A'\n", i);
                         break;
                 case 'e':
-                case 'E':
                         printf("%d: 'E'\n", i);
                         break;
                 case 'i':
-                case 'I':
                         printf("%d: 'I'\n", i);
                         break;
                 case 'o':
-                case 'O':
                         printf("%d: 'O'\n", i);
                         break;
                 case 'u':
-                case 'U':
                         printf("%d: 'U'\n", i);
                         break;
                 case 'y':
-                case 'Y':
                         if (i > 2) {
                                 // it's only sometimes Y
                                 printf("%d: 'Y'\n", i);
