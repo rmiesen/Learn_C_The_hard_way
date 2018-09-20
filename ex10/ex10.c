@@ -36,12 +36,15 @@ int main (int argc, char *argv[]) {
                 case 'Y':
                         if (i > 2) {
                                 // it's only sometimes Y
-                                //FIXME: need to handle cases where Y is not a vowel
                                 printf("%d: 'Y'\n", i);
+                        }
+                        else {
+                                goto notavowel;
                         }
                         break;
 
                 default:
+                notavowel:
                         printf("%d: %c is not a vowel.\n", i, letter);
                 }
         }
