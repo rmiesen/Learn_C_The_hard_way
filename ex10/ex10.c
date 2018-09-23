@@ -1,6 +1,12 @@
 #include <stdio.h>
 
 int main (int argc, char *argv[]) {
+                // inherantly biased towards ASCII, but should work for all
+                // character encodings where all the letters are grouped
+                // together (1) continuously and (2) in such a fashion that
+                // the distance between any character pair is the same
+        const char lowercase_bit = ('a' - 'A');
+
         if (argc != 2) {
                 printf("ERROR: You need one argument.\n");
 
@@ -9,17 +15,7 @@ int main (int argc, char *argv[]) {
 
         int i = 0;
         for (i = 0; argv[1][i] != '\0'; ++i) {
-                // inherantly biassed towards ASCII, but should work for all
-                // character encodings where all the letters are grouped
-                // together (1) continuously and (2) in such a fashion that
-                // the distance between any character pair is the same
-                const char to_lower_bitmask = ~('a' - 'A');
-                //LEFT_OFF_HERE: Figure out how to get bitmask to make a character LOWER CASE (currently makes them UPPER CASE)
-                printf("bitmask: %d\n", to_lower_bitmask);
-
-                char letter = argv[1][i] & to_lower_bitmask;
-                printf("DEBUG: %c converted to %c.\n", argv[1][i], letter);
-
+                char letter = argv[1][i] | lowercase_bit;
 
                 switch (letter) {
                 case 'a':
