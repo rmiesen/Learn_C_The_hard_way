@@ -119,10 +119,61 @@ void Database_create(struct Connection *conn)
         }
 }
 
-//LEFT_OFF_HERE: Continue adding stuff at Database_set
+void Database_set(struct Connection *conn, int id, const char *name,
+                  const char *email)
+{
+        struct Address *addr = &conn->db->rows[id];
+        if (addr->set) {
+                die("Alrady set, delete it first");
+        }
 
+        addr->set = 1;
+        // WARNING: bug, read the "How To Break It" and fix this
+        char *res = strncpy(addr->name, name, MAX_DATA);
+        // demonstrate teh strncpy bug
+        if (!res) {
+                die("Name copy failed");
+        }
+
+        res = strncpy(addr->email, email, MAX_DATA);
+        if (!res) {
+                die("Email copy failed");
+        }
+}
+
+void Database_get(struct Connection *conn, int id)
+{
+        struct Address *addr = &conn->db->rows[id];
+
+        if (addr->set) {
+                Address_print(addr);
+        } else {
+                die("ID is not set");
+        }
+}
+
+void Database_delete(struct Connection *conn, int id)
+{
+        struct Address addr = { .id = id, .set = 0 };
+        conn->db->rows[id] = addr;
+}
+
+void Database_list(struct Connection *conn)
+{
+        int i = 0;
+        struct Database *db = conn->db;
+
+        for (i = 0; i < MAX_ROWS; ++i) {
+                struct Address *cur = &db->rows[i];
+
+                if (cur->set) {
+                        Address_print(cur);
+                }
+        }
+}
+
+//LEFT_OFF_HERE: Write main() function
 int main (int argc, char *argv[])
 {
-
         return 0;
 }
